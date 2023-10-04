@@ -1,6 +1,7 @@
 package com.example.VaccinationManagementSystem.Services;
 
 import com.example.VaccinationManagementSystem.Dtos.RequestDtos.AssociateDoctorDto;
+import com.example.VaccinationManagementSystem.Enums.Gender;
 import com.example.VaccinationManagementSystem.Exceptions.DoctorNotFoundException;
 import com.example.VaccinationManagementSystem.Exceptions.EmailIdEmptyException;
 import com.example.VaccinationManagementSystem.Exceptions.DoctorAlreadyExistsException;
@@ -12,6 +13,8 @@ import com.example.VaccinationManagementSystem.Repository.VaccinationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -68,5 +71,42 @@ public class DoctorService {
         vaccinationRepository.save(vaccinationCenter);
 
         return "Doctor has been associated to the Vaccination Center";
+    }
+
+    public List<Doctor> doctorsWithMoreThan10Appointments() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+
+        List<Doctor> doctorsWithMoreThan10Appointments = new ArrayList<>();
+
+        for(Doctor doctor : doctorList){
+            if(doctor.getAppointmentList().size() > 10) doctorsWithMoreThan10Appointments.add(doctor);
+        }
+
+        return doctorsWithMoreThan10Appointments;
+    }
+
+    public List<Doctor> maleDoctorsAboveAge40() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+        List<Doctor> maleDoctorsAboveAge40 = new ArrayList<>();
+
+        for(Doctor doctor : doctorList){
+            if(doctor.getAge() > 40) maleDoctorsAboveAge40.add(doctor);
+        }
+
+        return maleDoctorsAboveAge40;
+    }
+
+    public float ratioOfMaleToFemaleDoctors() {
+        List<Doctor> doctorList = doctorRepository.findAll();
+
+        int maleDoctors = 0;
+        int femaleDoctors = 0;
+
+        for(Doctor doctor : doctorList){
+            if(doctor.getGender().equals(Gender.MALE)) maleDoctors++;
+            if(doctor.getGender().equals(Gender.FEMALE)) femaleDoctors++;
+        }
+
+        return (float) maleDoctors / femaleDoctors;
     }
 }

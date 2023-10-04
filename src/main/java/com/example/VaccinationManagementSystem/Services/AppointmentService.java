@@ -27,8 +27,8 @@ public class AppointmentService {
     @Autowired
     UserRepository userRepository;
 
-    @Autowired
-    private JavaMailSender emailSender;
+//    @Autowired
+//    private JavaMailSender emailSender;
 
     public String bookAppointment(AppointmentRequestDto appointmentRequestDto) throws DoctorNotFoundException , UserNotFoundException {
         Integer docId = appointmentRequestDto.getDocId();
@@ -72,19 +72,19 @@ public class AppointmentService {
 
 
         //Send email to the sender after booking the appointment
-        String body = "Hi!"+user.getName()+"\n"+
-                "You have successfully booked an appointment on" + appointment.getAppointmentDate() + "at time" + appointment.getAppointmentTime() + "\n"+
-                "Your doctor is" + appointment.getDoctor().getName() +"\n"+
-                "Please reach at " + doctor.getVaccinationCenter().getAddress();
-
-        SimpleMailMessage mailMessage = new SimpleMailMessage();
-        //set its attributes
-        mailMessage.setFrom("dummymail1240@gmail.com");
-        mailMessage.setTo(user.getEmailId());
-        mailMessage.setSubject("Appointment Confirmed !!");
-        mailMessage.setText(body);
-
-        emailSender.send(mailMessage);
+//        String body = "Hi!"+user.getName()+"\n"+
+//                "You have successfully booked an appointment on" + appointment.getAppointmentDate() + "at time" + appointment.getAppointmentTime() + "\n"+
+//                "Your doctor is" + appointment.getDoctor().getName() +"\n"+
+//                "Please reach at " + doctor.getVaccinationCenter().getAddress();
+//
+//        SimpleMailMessage mailMessage = new SimpleMailMessage();
+//        //set its attributes
+//        mailMessage.setFrom("dummymail1240@gmail.com");
+//        mailMessage.setTo(user.getEmailId());
+//        mailMessage.setSubject("Appointment Confirmed !!");
+//        mailMessage.setText(body);
+//
+//        emailSender.send(mailMessage);
 
         return "Appointment has been booked successfully";
     }
